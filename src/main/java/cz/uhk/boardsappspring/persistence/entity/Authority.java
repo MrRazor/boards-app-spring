@@ -1,13 +1,12 @@
 package cz.uhk.boardsappspring.persistence.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name="Authorities")
 @IdClass(AuthoritiesId.class)
 public class Authority {

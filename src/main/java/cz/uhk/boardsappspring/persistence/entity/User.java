@@ -1,18 +1,11 @@
 package cz.uhk.boardsappspring.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name="Users")
 public class User {
 
@@ -25,6 +18,12 @@ public class User {
 
     private boolean enabled;
 
-    @OneToMany(mappedBy = "username")
+    @OneToMany(mappedBy = "username", fetch = FetchType.LAZY)
     private List<Authority> authorities;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Comment> comments;
 }
