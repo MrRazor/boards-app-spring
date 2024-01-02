@@ -5,7 +5,7 @@ import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
 
-public abstract class AbstractJpaDAO< T > {
+public abstract class AbstractJpaDAO< T, U > {
 
     private Class< T > clazz;
 
@@ -16,7 +16,7 @@ public abstract class AbstractJpaDAO< T > {
         this.clazz = clazzToSet;
     }
 
-    public T findOne( long id ){
+    public T findOne( U id ){
         return entityManager.find( clazz, id );
     }
     public List< T > findAll(){
@@ -35,7 +35,7 @@ public abstract class AbstractJpaDAO< T > {
     public void delete( T entity ){
         entityManager.remove( entity );
     }
-    public void deleteById( long entityId ){
+    public void deleteById( U entityId ){
         T entity = findOne( entityId );
         delete( entity );
     }

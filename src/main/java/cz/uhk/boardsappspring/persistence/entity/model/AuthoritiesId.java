@@ -1,4 +1,4 @@
-package cz.uhk.boardsappspring.persistence.entity;
+package cz.uhk.boardsappspring.persistence.entity.model;
 
 import lombok.Data;
 

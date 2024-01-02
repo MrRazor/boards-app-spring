@@ -1,6 +1,7 @@
 package cz.uhk.boardsappspring;
 
-import cz.uhk.boardsappspring.persistence.dao.PostDAO;
+import cz.uhk.boardsappspring.persistence.dao.AuthorityDAO;
+import cz.uhk.boardsappspring.persistence.entity.model.AuthoritiesId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -9,10 +10,13 @@ import org.springframework.stereotype.Component;
 public class Tester implements CommandLineRunner {
 
     @Autowired
-    private PostDAO postDAO;
+    private AuthorityDAO authorityDAO;
 
     @Override
     public void run(String... args) throws Exception {
-        postDAO.findVisiblePosts();
+        AuthoritiesId authoritiesId = new AuthoritiesId();
+        authoritiesId.setUsername("haha");
+        authoritiesId.setAuthorityName("haha");
+        authorityDAO.findOne(new AuthoritiesId());
     }
 }

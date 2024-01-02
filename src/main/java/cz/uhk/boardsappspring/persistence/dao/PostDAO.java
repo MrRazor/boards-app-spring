@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PostDAO extends AbstractJpaDAO<Post> {
+public class PostDAO extends AbstractJpaDAO<Post,Long> {
     public PostDAO() {
         setClazz(Post.class);
     }

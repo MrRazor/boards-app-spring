@@ -1,5 +1,6 @@
 package cz.uhk.boardsappspring.persistence.entity;
 
+import cz.uhk.boardsappspring.persistence.entity.model.AuthoritiesId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
