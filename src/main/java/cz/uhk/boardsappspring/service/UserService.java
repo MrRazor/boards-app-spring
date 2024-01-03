@@ -11,6 +11,7 @@ public interface UserService {
     void changePassword(ChangePasswordUserDTO changePasswordUserDTO);
     void disableUser(String username);
     UserDTO login(LoginUserDTO loginUserDTO);
+    UserDTO getCurrentUser();
     String getCurrentUsername();
     List<String> getCurrentRoles();
 }

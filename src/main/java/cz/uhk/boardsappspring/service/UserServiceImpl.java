@@ -37,37 +37,52 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void registerUser(LoginUserDTO loginUserDTO) {
-        User user = userDTOMapper.loginUserDTOToUser(loginUserDTO);
-        Authority authority = new Authority();
-        authority.setAuthorityName(Role.USER.name());
-        authority.setUsername(user.getUsername());
-        authorityDAO.create(authority);
-        userDAO.create(user);
+        try {
+            loginUserDTO.setPassword(encodePassword(loginUserDTO.getPassword()));
+            User user = userDTOMapper.loginUserDTOToUser(loginUserDTO);
+            Authority authority = new Authority();
+            authority.setAuthorityName(Role.USER.getDatabaseName());
+            authority.setUsername(user.getUsername());
+            authorityDAO.create(authority);
+            userDAO.create(user);
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to create new user, maybe username is already taken");
+        }
     }
 
     @Override
     @Transactional
     public void changePassword(ChangePasswordUserDTO changePasswordUserDTO) {
-        User user = userDAO.findOne(getCurrentUsername());
-        if(passwordMatches(changePasswordUserDTO.getOldPassword(), user.getPassword())) {
-            user.setPassword(encodePassword(changePasswordUserDTO.getNewPassword()));
+        try {
+            User user = userDAO.findOne(getCurrentUsername());
+            if (passwordMatches(changePasswordUserDTO.getOldPassword(), user.getPassword())) {
+                user.setPassword(encodePassword(changePasswordUserDTO.getNewPassword()));
+            } else {
+                throw new IllegalStateException("Wrong current password");
+            }
         }
-        else {
-            throw new IllegalStateException("Wrong current password!");
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to change password, check if old password match");
         }
     }
 
     @Override
     @Transactional
     public void disableUser(String username) {
-        if(getCurrentRoles().contains(Role.ADMIN.name())) {
-            User user = userDAO.findOne(username);
-            if(user.getAuthorities().stream().map(Authority::getAuthorityName).noneMatch(authorityName -> authorityName.equals(Role.ADMIN.name()))) {
-                user.setEnabled(false);
+        if(getCurrentRoles().contains(Role.ADMIN.getDatabaseName())) {
+            try {
+                User user = userDAO.findOne(username);
+                if (user.isEnabled() && user.getAuthorities().stream().map(Authority::getAuthorityName).noneMatch(authorityName -> authorityName.equals(Role.ADMIN.getDatabaseName()))) {
+                    user.setEnabled(false);
+                }
+            }
+            catch (Exception e) {
+                throw new IllegalStateException("Failed to find user");
             }
         }
         else {
-            throw new IllegalStateException("You are not admin!");
+            throw new IllegalStateException("You are not admin");
         }
     }
 
@@ -75,6 +90,16 @@ public class UserServiceImpl implements UserService {
     public UserDTO login(LoginUserDTO loginUserDTO) {
         User user = userDAO.findUserByUsernameAndPassword(loginUserDTO.getUsername(), loginUserDTO.getPassword());
         return userDTOMapper.userToUserDTO(user);
+    }
+
+    @Override
+    public UserDTO getCurrentUser() {
+        try {
+            return userDTOMapper.userToUserDTO(userDAO.findOne(getCurrentUsername()));
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to find current user information");
+        }
     }
 
     @Override

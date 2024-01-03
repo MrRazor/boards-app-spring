@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -31,12 +32,12 @@ public class SecurityConfiguration {
         UserDetails user =
                 User.withUsername("user")
                         .password(passwordEncoder.encode("user"))
-                        .roles("USER")
+                        .roles(Role.USER.name())
                         .build();
         UserDetails admin =
                 User.withUsername("admin")
                         .password(passwordEncoder.encode("admin"))
-                        .roles("USER", "ADMIN")
+                        .roles(Role.USER.name(), Role.ADMIN.name())
                         .build();
 
         return new InMemoryUserDetailsManager(user, admin);
@@ -46,10 +47,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                //.csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/private").hasRole(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/public").permitAll())
+                .requestMatchers(HttpMethod.GET, "/").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/change-password").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/user/disable-user").hasRole(Role.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/user/current-user").authenticated()
+                )
                 .httpBasic(withDefaults())
                 .build();
     }

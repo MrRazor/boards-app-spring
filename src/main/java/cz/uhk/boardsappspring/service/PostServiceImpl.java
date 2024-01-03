@@ -53,7 +53,7 @@ public class PostServiceImpl implements PostService {
     public void removePost(Long postId) {
         Post post = postDAO.findOne(postId);
         String username = post.getAuthor().getUsername();
-        if ((userService.getCurrentUsername().equals(username) || userService.getCurrentRoles().contains(Role.ADMIN.name())) && !post.isRemoved()) {
+        if ((userService.getCurrentUsername().equals(username) || userService.getCurrentRoles().contains(Role.ADMIN.getDatabaseName())) && !post.isRemoved()) {
             post.setRemoved(true);
         }
     }

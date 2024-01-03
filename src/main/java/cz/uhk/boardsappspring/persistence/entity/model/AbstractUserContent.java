@@ -18,7 +18,13 @@ public abstract class AbstractUserContent implements UserContent {
     private User author;
 
     private String content;
+
+    @Column(insertable = false)
     private boolean removed;
+
+    @Column(insertable = false, updatable = false)
     private Timestamp createdAt;
+
+    @Column(insertable = false, updatable = false)
     private Timestamp updatedAt;
 }

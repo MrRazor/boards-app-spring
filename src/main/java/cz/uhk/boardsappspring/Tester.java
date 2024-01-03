@@ -1,28 +1,36 @@
 package cz.uhk.boardsappspring;
 
-import cz.uhk.boardsappspring.persistence.dao.AuthorityDAO;
-import cz.uhk.boardsappspring.persistence.entity.model.AuthoritiesId;
-import cz.uhk.boardsappspring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Tester implements CommandLineRunner {
 
     @Autowired
-    private AuthorityDAO authorityDAO;
+    private UserDetailsManager userDetailsManager;
 
     @Autowired
-    private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        AuthoritiesId authoritiesId = new AuthoritiesId();
-        authoritiesId.setUsername("haha");
-        authoritiesId.setAuthorityName("haha");
-        authorityDAO.findOne(new AuthoritiesId());
+        /*
+        UserDetails user =
+                User.withUsername("user")
+                        .password(passwordEncoder.encode("user"))
+                        .roles(Role.USER.name())
+                        .build();
+        UserDetails admin =
+                User.withUsername("admin")
+                        .password(passwordEncoder.encode("admin"))
+                        .roles(Role.USER.name(), Role.ADMIN.name())
+                        .build();
 
-        //userService.disableUser("user");
+        userDetailsManager.createUser(user);
+        userDetailsManager.createUser(admin);
+        */
     }
 }

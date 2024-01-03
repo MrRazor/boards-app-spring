@@ -16,6 +16,7 @@ public class User {
     @Column(length = 500)
     private String password;
 
+    @Column(insertable = false)
     private boolean enabled;
 
     @OneToMany(mappedBy = "username", fetch = FetchType.LAZY)

@@ -1,5 +1,9 @@
 package cz.uhk.boardsappspring.security;
 
 public enum Role {
-    USER, ADMIN
+    USER, ADMIN;
+
+    public String getDatabaseName() {
+        return "ROLE_" + name();
+    }
 }

@@ -64,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentDAO.findOne(commentId);
         String username = comment.getAuthor().getUsername();
         Post post = comment.getPost();
-        if((userService.getCurrentUsername().equals(username) || userService.getCurrentRoles().contains(Role.ADMIN.name())) && !post.isRemoved() && !comment.isRemoved()) {
+        if((userService.getCurrentUsername().equals(username) || userService.getCurrentRoles().contains(Role.ADMIN.getDatabaseName())) && !post.isRemoved() && !comment.isRemoved()) {
             comment.setRemoved(true);
         }
     }
