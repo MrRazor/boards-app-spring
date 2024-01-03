@@ -1,4 +1,4 @@
-package cz.uhk.boardsappspring.dto;
+package cz.uhk.boardsappspring.dto.post;
 
 import cz.uhk.boardsappspring.persistence.entity.Comment;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package cz.uhk.boardsappspring.dto.model;
 
-import cz.uhk.boardsappspring.dto.UserDTO;
+import cz.uhk.boardsappspring.dto.user.UserDTO;
 
 import java.sql.Timestamp;
 

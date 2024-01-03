@@ -19,6 +19,11 @@ public abstract class AbstractJpaDAO< T, U > {
     public T findOne( U id ){
         return entityManager.find( clazz, id );
     }
+
+    public T getReference ( U id ){
+        return entityManager.getReference( clazz, id );
+    }
+
     public List< T > findAll(){
         return entityManager.createQuery( "from " + clazz.getName() )
                 .getResultList();
@@ -35,8 +40,9 @@ public abstract class AbstractJpaDAO< T, U > {
     public void delete( T entity ){
         entityManager.remove( entity );
     }
+
     public void deleteById( U entityId ){
-        T entity = findOne( entityId );
+        T entity = getReference( entityId );
         delete( entity );
     }
 }

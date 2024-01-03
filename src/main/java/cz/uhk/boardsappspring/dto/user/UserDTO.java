@@ -1,5 +1,6 @@
-package cz.uhk.boardsappspring.dto;
+package cz.uhk.boardsappspring.dto.user;
 
+import cz.uhk.boardsappspring.dto.AuthorityDTO;
 import lombok.Data;
 
 import java.io.Serializable;

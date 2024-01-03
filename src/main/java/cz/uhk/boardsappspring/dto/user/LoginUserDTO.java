@@ -1,4 +1,4 @@
-package cz.uhk.boardsappspring.dto;
+package cz.uhk.boardsappspring.dto.user;
 
 import lombok.Data;
 

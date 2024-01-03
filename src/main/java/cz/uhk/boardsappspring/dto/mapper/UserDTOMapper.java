@@ -1,7 +1,7 @@
 package cz.uhk.boardsappspring.dto.mapper;
 
-import cz.uhk.boardsappspring.dto.LoginUserDTO;
-import cz.uhk.boardsappspring.dto.UserDTO;
+import cz.uhk.boardsappspring.dto.user.LoginUserDTO;
+import cz.uhk.boardsappspring.dto.user.UserDTO;
 import cz.uhk.boardsappspring.persistence.entity.User;
 import org.mapstruct.Mapper;
 
