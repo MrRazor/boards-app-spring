@@ -6,7 +6,6 @@ import cz.uhk.boardsappspring.dto.user.LoginUserDTO;
 import cz.uhk.boardsappspring.dto.user.UsernameDTO;
 import cz.uhk.boardsappspring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
-    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody LoginUserDTO loginUserDTO) {
         try {
             userService.registerUser(loginUserDTO);
@@ -29,7 +28,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/change-password", produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping("/change-password")
     public ResponseEntity changePassword(@RequestBody ChangePasswordUserDTO changePasswordUserDTO) {
         try {
         userService.changePassword(changePasswordUserDTO);
@@ -40,7 +39,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/disable-user", produces = MediaType.APPLICATION_JSON_VALUE )
+    @PostMapping("/disable-user")
     public ResponseEntity disableUser(@RequestBody UsernameDTO usernameDTO) {
         try {
         userService.disableUser(usernameDTO.getUsername());
@@ -51,7 +50,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/current-user", produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping("/current-user")
     public ResponseEntity getCurrentUser() {
         try {
             return ResponseEntity.ok(userService.getCurrentUser());

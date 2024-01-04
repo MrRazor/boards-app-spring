@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void addNewComment(Long replyPostId, NewCommentDTO newCommentDTO) {
+    public Long addNewComment(Long replyPostId, NewCommentDTO newCommentDTO) {
         try {
             Post post = postDAO.findOne(replyPostId);
             if (!post.isRemoved()) {
@@ -44,7 +44,10 @@ public class CommentServiceImpl implements CommentService {
                 comment.setPost(post);
                 User userReference = userDAO.getReference(userService.getCurrentUsername());
                 comment.setAuthor(userReference);
-                commentDAO.create(comment);
+                return commentDAO.createAndReturnId(comment);
+            }
+            else {
+                throw new IllegalStateException("You cannot add comment, because post with id " + replyPostId + " is already removed");
             }
         }
         catch (Exception e) {
@@ -81,6 +84,16 @@ public class CommentServiceImpl implements CommentService {
         }
         catch (Exception e) {
             throw new IllegalStateException("Failed to remove comment");
+        }
+    }
+
+    @Override
+    public CommentDTO findComment(Long id) {
+        try {
+            return commentDTOMapper.commentToCommentDTO(commentDAO.findOne(id));
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to find this comment");
         }
     }
 

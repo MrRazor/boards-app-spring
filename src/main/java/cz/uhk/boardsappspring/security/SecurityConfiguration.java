@@ -49,11 +49,28 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/change-password").authenticated()
-                .requestMatchers(HttpMethod.POST, "/api/user/disable-user").hasRole(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/user/current-user").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/change-password").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/user/disable-user").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/api/user/current-user").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/api/posts/new").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/posts/update/*").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/posts/remove/*").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/api/posts/post/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/post-comments/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/all").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/all-paged*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/all-comments").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/all-comments-paged*").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/api/comments/new/*").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/comments/update/*").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/comments/remove/*").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/api/comments/comment/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/comments/all/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/comments/all-paged/*").authenticated()
                 )
                 .httpBasic(withDefaults())
                 .build();

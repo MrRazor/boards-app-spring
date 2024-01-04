@@ -12,6 +12,12 @@ public class CommentDAO extends AbstractJpaDAO<Comment,Long> {
         setClazz(Comment.class);
     }
 
+    public Long createAndReturnId(Comment comment) {
+        entityManager.persist(comment);
+        entityManager.flush();
+        return comment.getId();
+    }
+
     public List<Comment> findVisibleCommentsByPostId(Long postId) {
         return getVisibleCommentsByPostIdSelectQuery(postId)
                 .getResultList();

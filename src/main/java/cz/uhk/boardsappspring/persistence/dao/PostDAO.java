@@ -12,6 +12,12 @@ public class PostDAO extends AbstractJpaDAO<Post,Long> {
         setClazz(Post.class);
     }
 
+    public Long createAndReturnId(Post post) {
+        entityManager.persist(post);
+        entityManager.flush();
+        return post.getId();
+    }
+
     public List<Post> findVisiblePosts() {
         return getVisiblePostsSelectQuery()
                 .getResultList();

@@ -31,11 +31,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void addNewPost(NewPostDTO newPostDTO) {
+    public Long addNewPost(NewPostDTO newPostDTO) {
         try {
             Post post = postDTOMapper.newPostDTOToPost(newPostDTO);
             post.setAuthor(userDAO.getReference(userService.getCurrentUsername()));
-            postDAO.create(post);
+            return postDAO.createAndReturnId(post);
         }
         catch (Exception e) {
             throw new IllegalStateException("Failed to create post");
@@ -70,6 +70,26 @@ public class PostServiceImpl implements PostService {
         }
         catch (Exception e) {
             throw new IllegalStateException("Failed to remove post");
+        }
+    }
+
+    @Override
+    public PostDTO findPost(Long id) {
+        try {
+            return postDTOMapper.postToPostDTO(postDAO.findOne(id));
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to find this post");
+        }
+    }
+
+    @Override
+    public PostWithCommentsDTO findPostWithComments(Long id) {
+        try {
+            return postDTOMapper.postToPostWithCommentsDTO(postDAO.findOne(id));
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to find this post");
         }
     }
 
