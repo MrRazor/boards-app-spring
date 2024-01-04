@@ -26,8 +26,7 @@ public class CommentDAO extends AbstractJpaDAO<Comment,Long> {
 
     private TypedQuery<Comment> getVisibleCommentsByPostIdSelectQuery(Long postId) {
         return entityManager
-                .createQuery("from Comments where removed=:removedParam and post.id=:postIdParam order by createdAt asc", Comment.class)
-                .setParameter("removedParam", true)
+                .createQuery("from Comments where removed=false and post.id=:postIdParam and post.removed=false order by createdAt asc", Comment.class)
                 .setParameter("postIdParam", postId);
     }
 }

@@ -9,10 +9,4 @@ public class UserDAO extends AbstractJpaDAO<User,String>{
         setClazz(User.class);
     }
 
-    public User findUserByUsernameAndPassword(String username, String password) {
-        return entityManager.createQuery("from Users where username=:usernameParam and password=:passwordParam", User.class)
-                .setParameter("usernameParam", username)
-                .setParameter("passwordParam", password)
-                .getSingleResult();
-    }
 }

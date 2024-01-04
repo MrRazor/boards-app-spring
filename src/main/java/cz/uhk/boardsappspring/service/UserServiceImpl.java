@@ -88,8 +88,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(LoginUserDTO loginUserDTO) {
-        User user = userDAO.findUserByUsernameAndPassword(loginUserDTO.getUsername(), loginUserDTO.getPassword());
-        return userDTOMapper.userToUserDTO(user);
+        User user;
+        try {
+            user = userDAO.findOne(loginUserDTO.getUsername());
+        }
+        catch (Exception e) {
+            throw new IllegalStateException("Failed to find user");
+        }
+        if(passwordMatches(loginUserDTO.getPassword(), user.getPassword())) {
+            return userDTOMapper.userToUserDTO(user);
+        }
+        else {
+            throw new IllegalStateException("Password is not correct");
+        }
     }
 
     @Override
