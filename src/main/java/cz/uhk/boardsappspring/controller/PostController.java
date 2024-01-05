@@ -58,16 +58,6 @@ public class PostController {
         }
     }
 
-    @GetMapping("/post-comments/{id}")
-    public ResponseEntity findPostWithComments(@PathVariable("id") Long id) {
-        try {
-            return ResponseEntity.ok(postService.findPostWithComments(id));
-        }
-        catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
-        }
-    }
-
     @GetMapping("/all")
     public ResponseEntity findVisiblePosts() {
         try {
@@ -81,26 +71,6 @@ public class PostController {
     public ResponseEntity findVisiblePosts(@RequestParam("page") int pageNumber, @RequestParam("size") int pageSize) {
         try {
             return ResponseEntity.ok(postService.findVisiblePosts(pageNumber, pageSize));
-        }
-        catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
-        }
-    }
-
-    @GetMapping("/all-comments")
-    public ResponseEntity findVisiblePostsWithComments() {
-        try {
-            return ResponseEntity.ok(postService.findVisiblePostsWithComments());
-        }
-        catch (IllegalStateException e) {
-            return ResponseEntity.internalServerError().body(new ErrorDTO(e.getMessage()));
-        }
-    }
-
-    @GetMapping("/all-comments-paged")
-    public ResponseEntity findVisiblePostsWithComments(@RequestParam("page") int pageNumber, @RequestParam("size") int pageSize) {
-        try {
-            return ResponseEntity.ok(postService.findVisiblePostsWithComments(pageNumber, pageSize));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));

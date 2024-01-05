@@ -3,7 +3,6 @@ package cz.uhk.boardsappspring.service;
 import cz.uhk.boardsappspring.dto.mapper.PostDTOMapper;
 import cz.uhk.boardsappspring.dto.post.NewPostDTO;
 import cz.uhk.boardsappspring.dto.post.PostDTO;
-import cz.uhk.boardsappspring.dto.post.PostWithCommentsDTO;
 import cz.uhk.boardsappspring.persistence.dao.PostDAO;
 import cz.uhk.boardsappspring.persistence.dao.UserDAO;
 import cz.uhk.boardsappspring.persistence.entity.Post;
@@ -94,23 +93,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostWithCommentsDTO findPostWithComments(Long id) {
-        try {
-            PostWithCommentsDTO postWithCommentsDTO = postDTOMapper.postToPostWithCommentsDTO(postDAO.findOne(id));
-            if (postWithCommentsDTO != null) {
-                return postWithCommentsDTO;
-            }
-            else {
-                throw new IllegalStateException("Post doesn't exist");
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Failed to find this post");
-        }
-    }
-
-    @Override
     public List<PostDTO> findVisiblePosts() {
         try {
             return postDAO.findVisiblePosts().stream().map(post -> postDTOMapper.postToPostDTO(post)).toList();
@@ -125,28 +107,6 @@ public class PostServiceImpl implements PostService {
     public List<PostDTO> findVisiblePosts(int pageNumber, int pageSize) {
         try {
             return postDAO.findVisiblePosts(pageNumber, pageSize).stream().map(post -> postDTOMapper.postToPostDTO(post)).toList();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Failed to find visible posts");
-        }
-    }
-
-    @Override
-    public List<PostWithCommentsDTO> findVisiblePostsWithComments() {
-        try {
-            return postDAO.findVisiblePosts().stream().map(post -> postDTOMapper.postToPostWithCommentsDTO(post)).toList();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Failed to find visible posts");
-        }
-    }
-
-    @Override
-    public List<PostWithCommentsDTO> findVisiblePostsWithComments(int pageNumber, int pageSize) {
-        try {
-            return postDAO.findVisiblePosts(pageNumber, pageSize).stream().map(post -> postDTOMapper.postToPostWithCommentsDTO(post)).toList();
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -59,11 +59,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/posts/update/*").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/posts/remove/*").hasRole(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/api/posts/post/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/post-comments/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/all").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/all-paged*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/all-comments").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/all-comments-paged*").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/comments/new/*").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/comments/update/*").authenticated()
