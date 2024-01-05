@@ -30,6 +30,13 @@ public class PostDAO extends AbstractJpaDAO<Post,Long> {
                 .getResultList();
     }
 
+    public boolean existsById(Long id) {
+        Long countResult = (Long) entityManager.createQuery("select count(id) from Posts e where id=:id")
+                .setParameter("id", id)
+                .getSingleResult();
+        return !countResult.equals(0L);
+    }
+
     private TypedQuery<Post> getVisiblePostsSelectQuery() {
         return entityManager
                 .createQuery("from Posts where removed=false order by createdAt desc", Post.class);

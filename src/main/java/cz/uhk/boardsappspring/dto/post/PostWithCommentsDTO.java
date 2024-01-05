@@ -1,6 +1,6 @@
 package cz.uhk.boardsappspring.dto.post;
 
-import cz.uhk.boardsappspring.persistence.entity.Comment;
+import cz.uhk.boardsappspring.dto.comment.CommentDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,5 +10,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class PostWithCommentsDTO extends PostDTO {
 
-    private List<Comment> comments;
+    private List<CommentDTO> comments;
 }

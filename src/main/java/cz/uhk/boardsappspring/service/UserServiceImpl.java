@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
             userDAO.create(user);
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to create new user, maybe username is already taken");
         }
     }
@@ -63,6 +64,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to change password, check if old password match");
         }
     }
@@ -93,6 +95,7 @@ public class UserServiceImpl implements UserService {
             user = userDAO.findOne(loginUserDTO.getUsername());
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find user");
         }
         if(passwordMatches(loginUserDTO.getPassword(), user.getPassword())) {
@@ -109,6 +112,7 @@ public class UserServiceImpl implements UserService {
             return userDTOMapper.userToUserDTO(userDAO.findOne(getCurrentUsername()));
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find current user information");
         }
     }

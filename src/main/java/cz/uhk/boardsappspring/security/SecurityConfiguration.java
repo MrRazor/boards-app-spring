@@ -92,6 +92,6 @@ public class SecurityConfiguration {
             }
         };
         */
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A, 10);
     }
 }

@@ -51,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to create comment for this post");
         }
     }
@@ -67,6 +68,7 @@ public class CommentServiceImpl implements CommentService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to update comment");
         }
     }
@@ -83,6 +85,7 @@ public class CommentServiceImpl implements CommentService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to remove comment");
         }
     }
@@ -93,6 +96,7 @@ public class CommentServiceImpl implements CommentService {
             return commentDTOMapper.commentToCommentDTO(commentDAO.findOne(id));
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find this comment");
         }
     }
@@ -100,20 +104,32 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDTO> findVisibleCommentsByPostId(Long postId) {
         try {
-            return commentDAO.findVisibleCommentsByPostId(postId).stream().map(comment -> commentDTOMapper.commentToCommentDTO(comment)).toList();
+            if (postDAO.existsById(postId)) {
+                return commentDAO.findVisibleCommentsByPostId(postId).stream().map(comment -> commentDTOMapper.commentToCommentDTO(comment)).toList();
+            }
+            else {
+                throw new IllegalStateException("Post doesn't exist");
+            }
         }
         catch (Exception e) {
-            throw new IllegalStateException("Failed to find visible comments for this post");
+            e.printStackTrace();
+            throw new IllegalStateException("Failed to find comments for this post, or post doesn't exist");
         }
     }
 
     @Override
     public List<CommentDTO> findVisibleCommentsByPostId(Long postId, int pageNumber, int pageSize) {
         try {
-            return commentDAO.findVisibleCommentsByPostId(postId, pageNumber, pageSize).stream().map(comment -> commentDTOMapper.commentToCommentDTO(comment)).toList();
+            if (postDAO.existsById(postId)) {
+                return commentDAO.findVisibleCommentsByPostId(postId, pageNumber, pageSize).stream().map(comment -> commentDTOMapper.commentToCommentDTO(comment)).toList();
+            }
+            else {
+                throw new IllegalStateException("Post doesn't exist");
+            }
         }
         catch (Exception e) {
-            throw new IllegalStateException("Failed to find visible comments for this post");
+            e.printStackTrace();
+            throw new IllegalStateException("Failed to find comments for this post, or post doesn't exist");
         }
     }
 }

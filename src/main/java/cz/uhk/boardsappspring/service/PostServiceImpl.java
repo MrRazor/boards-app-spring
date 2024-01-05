@@ -38,6 +38,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.createAndReturnId(post);
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to create post");
         }
     }
@@ -54,6 +55,7 @@ public class PostServiceImpl implements PostService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to update post");
         }
     }
@@ -69,6 +71,7 @@ public class PostServiceImpl implements PostService {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to remove post");
         }
     }
@@ -76,9 +79,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO findPost(Long id) {
         try {
-            return postDTOMapper.postToPostDTO(postDAO.findOne(id));
+            PostDTO postDTO =  postDTOMapper.postToPostDTO(postDAO.findOne(id));
+            if (postDTO != null) {
+                return postDTO;
+            }
+            else {
+                throw new IllegalStateException("Post doesn't exist");
+            }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find this post");
         }
     }
@@ -86,9 +96,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostWithCommentsDTO findPostWithComments(Long id) {
         try {
-            return postDTOMapper.postToPostWithCommentsDTO(postDAO.findOne(id));
+            PostWithCommentsDTO postWithCommentsDTO = postDTOMapper.postToPostWithCommentsDTO(postDAO.findOne(id));
+            if (postWithCommentsDTO != null) {
+                return postWithCommentsDTO;
+            }
+            else {
+                throw new IllegalStateException("Post doesn't exist");
+            }
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find this post");
         }
     }
@@ -99,6 +116,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.findVisiblePosts().stream().map(post -> postDTOMapper.postToPostDTO(post)).toList();
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find visible posts");
         }
     }
@@ -109,6 +127,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.findVisiblePosts(pageNumber, pageSize).stream().map(post -> postDTOMapper.postToPostDTO(post)).toList();
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find visible posts");
         }
     }
@@ -119,6 +138,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.findVisiblePosts().stream().map(post -> postDTOMapper.postToPostWithCommentsDTO(post)).toList();
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find visible posts");
         }
     }
@@ -129,6 +149,7 @@ public class PostServiceImpl implements PostService {
             return postDAO.findVisiblePosts(pageNumber, pageSize).stream().map(post -> postDTOMapper.postToPostWithCommentsDTO(post)).toList();
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException("Failed to find visible posts");
         }
     }

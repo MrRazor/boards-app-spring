@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public abstract class AbstractUserContent implements UserContent {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
