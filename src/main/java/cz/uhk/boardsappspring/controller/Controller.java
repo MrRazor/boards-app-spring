@@ -10,7 +10,15 @@ public class Controller {
 
     @GetMapping
     public String index() {
-        return "Spring variant of Boards application.";
+        return  """
+                <html>
+                    <header><title>Boards</title></header>
+                    
+                    <body>
+                        Spring variant of Boards application.
+                    </body>
+                </html>
+                """;
     }
 
 }

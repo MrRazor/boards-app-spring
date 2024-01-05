@@ -2,6 +2,7 @@ package cz.uhk.boardsappspring.controller;
 
 import cz.uhk.boardsappspring.dto.comment.NewCommentDTO;
 import cz.uhk.boardsappspring.dto.model.ErrorDTO;
+import cz.uhk.boardsappspring.dto.model.SuccessDTO;
 import cz.uhk.boardsappspring.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class CommentController {
     public ResponseEntity addNewComment(@PathVariable("id") Long replyPostId, @RequestBody NewCommentDTO newCommentDTO) {
         try {
             Long id = commentService.addNewComment(replyPostId, newCommentDTO);
-            return ResponseEntity.ok("New comment with id " + id + " created");
+            return ResponseEntity.ok(new SuccessDTO("New comment with id " + id + " created"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
@@ -29,7 +30,7 @@ public class CommentController {
     public ResponseEntity updateComment(@PathVariable("id") Long commentId, @RequestBody NewCommentDTO newCommentDTO) {
         try {
             commentService.updateComment(commentId, newCommentDTO);
-            return ResponseEntity.ok("Comment with id " + commentId + " successfully updated");
+            return ResponseEntity.ok(new SuccessDTO("Comment with id " + commentId + " successfully updated"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
@@ -40,7 +41,7 @@ public class CommentController {
     public ResponseEntity removeComment(@PathVariable("id") Long commentId) {
         try {
             commentService.removeComment(commentId);
-            return ResponseEntity.ok("Comment with id " + commentId + " successfully removed");
+            return ResponseEntity.ok(new SuccessDTO("Comment with id " + commentId + " successfully removed"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));

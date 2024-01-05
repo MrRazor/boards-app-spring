@@ -1,6 +1,7 @@
 package cz.uhk.boardsappspring.controller;
 
 import cz.uhk.boardsappspring.dto.model.ErrorDTO;
+import cz.uhk.boardsappspring.dto.model.SuccessDTO;
 import cz.uhk.boardsappspring.dto.post.NewPostDTO;
 import cz.uhk.boardsappspring.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class PostController {
     public ResponseEntity addNewPost(@RequestBody NewPostDTO newPostDTO) {
         try {
             Long id = postService.addNewPost(newPostDTO);
-            return ResponseEntity.ok("New post with id " + id + " created");
+            return ResponseEntity.ok(new SuccessDTO("New post with id " + id + " created"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
@@ -29,7 +30,7 @@ public class PostController {
     public ResponseEntity updatePost(@PathVariable("id") Long postId, @RequestBody NewPostDTO newPostDTO) {
         try {
             postService.updatePost(postId, newPostDTO);
-            return ResponseEntity.ok("Post with id " + postId + " successfully updated");
+            return ResponseEntity.ok(new SuccessDTO("Post with id " + postId + " successfully updated"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
@@ -40,7 +41,7 @@ public class PostController {
     public ResponseEntity removePost(@PathVariable("id") Long postId) {
         try {
             postService.removePost(postId);
-            return ResponseEntity.ok("Post with id " + postId + " successfully removed");
+            return ResponseEntity.ok(new SuccessDTO("Post with id " + postId + " successfully removed"));
         }
         catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(new ErrorDTO(e.getMessage()));
