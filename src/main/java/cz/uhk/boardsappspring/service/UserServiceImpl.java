@@ -78,9 +78,12 @@ public class UserServiceImpl implements UserService {
                 if (user.isEnabled() && user.getAuthorities().stream().map(Authority::getAuthorityName).noneMatch(authorityName -> authorityName.equals(Role.ADMIN.getDatabaseName()))) {
                     user.setEnabled(false);
                 }
+                else {
+                    throw new IllegalStateException("User is already deleted / User is admin too");
+                }
             }
             catch (Exception e) {
-                throw new IllegalStateException("Failed to find user");
+                throw new IllegalStateException("Failed to find user / User is already deleted / User is admin too");
             }
         }
         else {

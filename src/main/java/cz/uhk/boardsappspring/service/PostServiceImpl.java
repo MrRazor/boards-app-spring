@@ -52,10 +52,13 @@ public class PostServiceImpl implements PostService {
                 post.setTitle(newPostDTO.getTitle());
                 post.setContent(newPostDTO.getContent());
             }
+            else {
+                throw new IllegalStateException("Post is already deleted, or you are incorrect user");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new IllegalStateException("Failed to update post");
+            throw new IllegalStateException("Failed to update post - it is possible post is already deleted, or you are incorrect user");
         }
     }
 
@@ -68,10 +71,13 @@ public class PostServiceImpl implements PostService {
             if ((userService.getCurrentUsername().equals(username) || userService.getCurrentRoles().contains(Role.ADMIN.getDatabaseName())) && !post.isRemoved()) {
                 post.setRemoved(true);
             }
+            else {
+                throw new IllegalStateException("Post is already deleted, or you are not admin, or author is admin too");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new IllegalStateException("Failed to remove post");
+            throw new IllegalStateException("Failed to remove post - it is possible post is already deleted, or you are not admin, or author is admin too");
         }
     }
 
