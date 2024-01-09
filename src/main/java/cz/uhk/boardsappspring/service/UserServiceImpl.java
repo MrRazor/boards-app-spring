@@ -2,8 +2,8 @@ package cz.uhk.boardsappspring.service;
 
 import cz.uhk.boardsappspring.dto.mapper.UserDTOMapper;
 import cz.uhk.boardsappspring.dto.user.ChangePasswordUserDTO;
+import cz.uhk.boardsappspring.dto.user.InformationUserDTO;
 import cz.uhk.boardsappspring.dto.user.LoginUserDTO;
-import cz.uhk.boardsappspring.dto.user.UserDTO;
 import cz.uhk.boardsappspring.persistence.dao.AuthorityDAO;
 import cz.uhk.boardsappspring.persistence.dao.UserDAO;
 import cz.uhk.boardsappspring.persistence.entity.Authority;
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(LoginUserDTO loginUserDTO) {
+    public InformationUserDTO login(LoginUserDTO loginUserDTO) {
         User user;
         try {
             user = userDAO.findOne(loginUserDTO.getUsername());
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getCurrentUser() {
+    public InformationUserDTO getCurrentUser() {
         try {
             return userDTOMapper.userToUserDTO(userDAO.findOne(getCurrentUsername()));
         }
