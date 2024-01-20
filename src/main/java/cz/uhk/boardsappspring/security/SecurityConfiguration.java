@@ -20,28 +20,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource, PasswordEncoder passwordEncoder) {
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
         jdbcUserDetailsManager.setDataSource(dataSource);
 
-        //jdbcUserDetailsManager.createUser(user);
-        //jdbcUserDetailsManager.createUser(admin);
-
         return jdbcUserDetailsManager;
-        /*
-        UserDetails user =
-                User.withUsername("user")
-                        .password(passwordEncoder.encode("user"))
-                        .roles(Role.USER.name())
-                        .build();
-        UserDetails admin =
-                User.withUsername("admin")
-                        .password(passwordEncoder.encode("admin"))
-                        .roles(Role.USER.name(), Role.ADMIN.name())
-                        .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-        */
     }
 
     @Bean
@@ -77,19 +60,6 @@ public class SecurityConfiguration {
     @Bean
     @Primary
     public PasswordEncoder passwordEncoder() {
-        /*
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return rawPassword.toString().equals(encodedPassword);
-            }
-        };
-        */
         return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A, 10);
     }
 }
